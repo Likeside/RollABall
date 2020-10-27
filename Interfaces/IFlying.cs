@@ -5,11 +5,10 @@ using UnityEngine;
 namespace RollABall
 {
 
-
-    public abstract class InteractiveObject: MonoBehaviour
+    public interface IFlying
     {
-        protected abstract void Interaction();
-
+        void Fly();
     }
 
 }
+

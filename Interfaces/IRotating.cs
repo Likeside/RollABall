@@ -5,11 +5,10 @@ using UnityEngine;
 namespace RollABall
 {
 
-
-    public abstract class InteractiveObject: MonoBehaviour
+    public interface IRotating
     {
-        protected abstract void Interaction();
-
+        void Rotate();
     }
 
 }
+

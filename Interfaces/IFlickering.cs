@@ -5,11 +5,9 @@ using UnityEngine;
 namespace RollABall
 {
 
-
-    public abstract class InteractiveObject: MonoBehaviour
+    public interface IFlickering
     {
-        protected abstract void Interaction();
-
+        void Flicker();
     }
 
 }
