@@ -10,7 +10,7 @@ namespace RollABall
 
     public class Player : MonoBehaviour
     {
-        [SerializeField] private float _speed;
+        [SerializeField] public float _speed;
         private Rigidbody _rigidbody;
 
         public Player(float speed)
