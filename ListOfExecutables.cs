@@ -10,10 +10,11 @@ public class ListOfExecutables : IEnumerator, IEnumerable
     private IExecute[] _executableObjects;
     private int _index = -1;
     private InteractiveObject _currentInteractiveObject;
-    private int ListLength => _executableObjects.Length;
+    public int ListLength => _executableObjects.Length;
 
     public ListOfExecutables()
     {
+        //Ищем все интерактивные объекты и, если они реализуют интерфейс IExecute, добавляем их в массив
         var interactiveObjects = Object.FindObjectsOfType<InteractiveObject>();
         for (var i = 0; i < interactiveObjects.Length; i++)
         {
@@ -24,6 +25,8 @@ public class ListOfExecutables : IEnumerator, IEnumerable
         }
     }
 
+    
+    //Метод добавления объектов, реализующих IExecute в массив
     private void AddExecutableObject(IExecute executableObject)
     {
         if (_executableObjects == null)
@@ -32,34 +35,48 @@ public class ListOfExecutables : IEnumerator, IEnumerable
             return;
         }
         Array.Resize(ref _executableObjects, ListLength + 1);
+        _executableObjects[ListLength - 1] = executableObject;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //Имплементация нумератора
+
+    //Индексатор
+    public IExecute this[int index]
+    {
+        get => _executableObjects[index];
+        set => _executableObjects[index] = value;
+    }
+
+
+
+    #region Имлпементация нумераторов
     public bool MoveNext()
     {
-        throw new System.NotImplementedException();
+        if (_index == _executableObjects.Length - 1)
+        {
+            Reset();
+            return false;
+        }
+
+        _index++;
+        return true;
     }
 
     public void Reset()
     {
-        throw new System.NotImplementedException();
+        _index = -1;
     }
 
-    public object Current { get; }
+    public object Current
+    {
+        get
+        {
+            return _executableObjects[_index];
+        }
+    }
+
     public IEnumerator GetEnumerator()
     {
-        throw new System.NotImplementedException();
+        return this;
     }
+    
+    #endregion
 }

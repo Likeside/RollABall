@@ -11,10 +11,11 @@ namespace RollABall
     {
         private Text _gameOverLabel;
 
-        public GameOverDisplay(Text gameOverLabel)
+        public GameOverDisplay()
         {
-            _gameOverLabel = gameOverLabel;
-            _gameOverLabel.text = String.Empty;
+            //Заменить на загрузку из кода
+           // _gameOverLabel = gameOverLabel;
+            //_gameOverLabel.text = String.Empty;
         }
 
         public void GameOver(object catchingplayer, CaughtPlayerEventArgs args)

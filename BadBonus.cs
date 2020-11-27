@@ -33,6 +33,12 @@ namespace RollABall
             CaughtPlayer?.Invoke(this, new CaughtPlayerEventArgs(_color));
         }
 
+        public override void Execute()
+        {
+            Fly();
+            Rotate();
+        }
+
         public void Fly()
         {
             transform.localPosition = new Vector3(transform.localPosition.x, Mathf.PingPong(Time.time,_flightDistance), transform.localPosition.z);

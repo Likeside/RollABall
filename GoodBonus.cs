@@ -17,10 +17,13 @@ namespace RollABall
   private float _flightDistance;
   private Material _material;
   private PlayerBall _playerBall;
+  public int pointsForCollection;
 
   public delegate void CameraShake(object shaker);
-
   public event CameraShake cameraShakeEvent;
+  
+  
+  public event Action<int> OnPointsChanged = delegate(int i) {  };
 
   private void Awake()
   {
@@ -33,9 +36,16 @@ namespace RollABall
 
   protected override void Interaction()
   {
-   _scoreDisplay.Display(5);
+   OnPointsChanged.Invoke(pointsForCollection);
    AddSpeed();
    cameraShakeEvent?.Invoke(this);
+  }
+
+  public override void Execute()
+  {
+   if(!IsInteractable) return;
+   Fly();
+   Flicker();
   }
 
   public void Fly()

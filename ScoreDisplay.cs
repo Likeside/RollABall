@@ -9,14 +9,16 @@ namespace RollABall
     public sealed class ScoreDisplay
     {
         private Text _text;
+        
         public ScoreDisplay()
         {
-            _text = Object.FindObjectOfType<Text>();
+            //Заменить на загрузку из кода
+            //_text = Object.FindObjectOfType<Text>();
         }
         
-        public void Display(int value)
+        public void Display(int score)
         {
-            _text.text = $"Вы набрали {value}" +" очков.";
+            _text.text = $"Вы набрали {score}" +" очков.";
         }
 
     }

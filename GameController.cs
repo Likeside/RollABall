@@ -12,16 +12,24 @@ namespace RollABall
         public Text _gameOverLabel;
         private InteractiveObject[] _interactiveObjects;
         private GameOverDisplay _gameOverDisplay;
+        private ScoreDisplay _scoreDisplay;
         private CameraController _cameraController;
+        private ListOfExecutables _listOfExecutables;
+        private int _pointsCollected;
 
         private void Awake()
         {
+            _listOfExecutables = new ListOfExecutables();
+            
             //Заполняем массив интерактивных объектов
             _interactiveObjects = FindObjectsOfType<InteractiveObject>();
             
-            //Указываем, где выводится сообщение о проигрыше
-            _gameOverDisplay = new GameOverDisplay(_gameOverLabel);
+            //Инициализация сообщения о проигрыше
+            _gameOverDisplay = new GameOverDisplay();
             
+            //Инициализация сообщения о набранных очках
+            _scoreDisplay = new ScoreDisplay();
+
             //Пробегаемся по массиву интерактивных объектов, и если объект является BadBonus, добавляем методы к его делегату "Catch"
 
             foreach (var interactiveObject in _interactiveObjects)
@@ -32,12 +40,13 @@ namespace RollABall
                     badBonus.CaughtPlayer += _gameOverDisplay.GameOver;
                 } 
             }
-            //Тоже самое с хорошими кубами
+            //Тоже самое с хорошими кубами (тряска камеры и добавление очков)
             foreach (var interactiveObject in _interactiveObjects)
             {
                 if (interactiveObject is GoodBonus goodBonus)
                 {
                     goodBonus.cameraShakeEvent += CameraShake;
+                    goodBonus.OnPointsChanged += AddPoints;
                 } 
             }
             
@@ -53,7 +62,8 @@ namespace RollABall
         
         private void Update()
         {
-            //Запускаем интерфейсы интерактивных объектов
+            # region Запуск интерфейсов интерактивных объектов (перенесено в IExecute)
+            /*
             for (var i = 0; i < _interactiveObjects.Length; i++)
             {
                 var interactiveObject = _interactiveObjects[i];
@@ -78,6 +88,19 @@ namespace RollABall
                     iflickering.Flicker();
                 }
             }
+            */
+            #endregion
+
+
+            for (var i = 0; i < _listOfExecutables.ListLength; i++)
+            {
+                var executalbeObject = _listOfExecutables[i];
+                if (executalbeObject == null)
+                {
+                    continue;
+                }
+                executalbeObject.Execute();
+            }
         }
         
         private void CaughtPlayer(object catchingobject, CaughtPlayerEventArgs args)
@@ -85,7 +108,7 @@ namespace RollABall
             Time.timeScale = 0.0f;
         }
         
-        //Тряска камеры
+        //Тряска камеры при подборе положительного бонуса
         private void CameraShake(object shaker)
         {
             _cameraController._offset += Vector3.down;
@@ -93,10 +116,15 @@ namespace RollABall
             
             
         }
-
         private void CameraOffsetUp()
         {
             _cameraController._offset -= Vector3.down;
+        }
+
+        private void AddPoints(int points)
+        {
+            _pointsCollected += points;
+            _scoreDisplay.Display(_pointsCollected);
         }
         
         //Диспоуз удаляет методы из списка делегата
@@ -111,6 +139,12 @@ namespace RollABall
                     {
                         badBonus.CaughtPlayer -= CaughtPlayer;
                         badBonus.CaughtPlayer -= _gameOverDisplay.GameOver;
+                    }
+
+                    if (interactiveObject is GoodBonus goodBonus)
+                    {
+                        goodBonus.cameraShakeEvent -= CameraShake;
+                        goodBonus.OnPointsChanged -= AddPoints;
                     }
                 }
             }
