@@ -16,7 +16,12 @@ namespace RollABall
         [SerializeField] private float _maxRotationSpeed = 50f;
         private float _flightDistance;
         private float _rotationSpeed;
+        
+       // public delegate void CatchPlayer(object catchingobject);
+       // public event CatchPlayer CaughtPlayer;
 
+        public event EventHandler<CaughtPlayerEventArgs> CaughtPlayer; 
+        
         private void Awake()
         {
             _flightDistance = Random.Range(_minFlightDistance, _maxFlightDistance);
@@ -25,7 +30,7 @@ namespace RollABall
 
         protected override void Interaction()
         {
-            //Hurt player
+            CaughtPlayer?.Invoke(this, new CaughtPlayerEventArgs(_color));
         }
 
         public void Fly()
@@ -35,7 +40,7 @@ namespace RollABall
 
         public void Rotate()
         {
-            transform.Rotate(Vector3.up * (Time.deltaTime * _rotationSpeed), Space.World);
+            transform.Rotate(Vector3.up * (Time.deltaTime * _rotationSpeed), Space.Self);
 
         }
     }

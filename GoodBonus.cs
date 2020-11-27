@@ -18,6 +18,10 @@ namespace RollABall
   private Material _material;
   private PlayerBall _playerBall;
 
+  public delegate void CameraShake(object shaker);
+
+  public event CameraShake cameraShakeEvent;
+
   private void Awake()
   {
    _flightDistance = Random.Range(_minFlightDistance, _maxFlightDistance);
@@ -31,6 +35,7 @@ namespace RollABall
   {
    _scoreDisplay.Display(5);
    AddSpeed();
+   cameraShakeEvent?.Invoke(this);
   }
 
   public void Fly()
