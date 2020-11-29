@@ -27,7 +27,7 @@ public class ListOfExecutables : IEnumerator, IEnumerable
 
     
     //Метод добавления объектов, реализующих IExecute в массив
-    private void AddExecutableObject(IExecute executableObject)
+    public void AddExecutableObject(IExecute executableObject)
     {
         if (_executableObjects == null)
         {

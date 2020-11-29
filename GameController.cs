@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using RollABall.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ namespace RollABall
         private GameOverDisplay _gameOverDisplay;
         private ScoreDisplay _scoreDisplay;
         private CameraController _cameraController;
+        private InputController _inputController;
         private ListOfExecutables _listOfExecutables;
         private int _pointsCollected;
 
@@ -24,6 +26,14 @@ namespace RollABall
             //Заполняем массив интерактивных объектов
             _interactiveObjects = FindObjectsOfType<InteractiveObject>();
             
+            var reference = new Reference();
+            _cameraController = new CameraController(reference.PlayerBall.transform, reference.MainCamera.transform);
+            _listOfExecutables.AddExecutableObject(_cameraController);
+            
+            _inputController = new InputController(reference.PlayerBall);
+            _listOfExecutables.AddExecutableObject(_inputController);
+            
+
             //Инициализация сообщения о проигрыше
             _gameOverDisplay = new GameOverDisplay();
             
@@ -56,7 +66,6 @@ namespace RollABall
                 PlayerID = new Guid()
             };
 
-            _cameraController = FindObjectOfType<CameraController>();
 
         }
         

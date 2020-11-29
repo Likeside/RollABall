@@ -14,6 +14,7 @@ namespace RollABall
   
   [SerializeField] private float _minFlightDistance = 1.0f;
   [SerializeField] private float _maxFlightDistance = 5.0f;
+  [SerializeField] private float _speedBonus;
   private float _flightDistance;
   private Material _material;
   private PlayerBall _playerBall;
@@ -60,7 +61,7 @@ namespace RollABall
 
   public void AddSpeed()
   {
-   _playerBall._speed = 5;
+   _playerBall.Speed += _speedBonus;
   }
  }
 

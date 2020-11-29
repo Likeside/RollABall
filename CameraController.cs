@@ -7,21 +7,26 @@ namespace RollABall
 {
 
 
-    public sealed class CameraController : MonoBehaviour
+    public sealed class CameraController: IExecute
     {
-        [SerializeField] private Player _player;
+
+        private Transform _player;
+        private Transform _mainCamera;
         public Vector3 _offset;
 
-        // Start is called before the first frame update
-        void Start()
+
+        public CameraController(Transform player, Transform mainCamera)
         {
-            _offset = transform.position - _player.transform.position;
+            _player = player;
+            _mainCamera = mainCamera;
+            _mainCamera.LookAt(_player);
+            _offset = _mainCamera.position - _player.position;
         }
 
-        // Update is called once per frame
-        void LateUpdate()
+
+        public void Execute()
         {
-            transform.position = _player.transform.position + _offset;
+            _mainCamera.position = _player.position + _offset;
         }
     }
 
