@@ -8,13 +8,13 @@ namespace RollABall
 {
 
 
- public sealed class GoodBonus : InteractiveObject, IFlying, IFlickering, IInteractable, IAccelerating
+ public sealed class GoodBonus : InteractiveObject, IFlying, IFlickering, IInteractable
  {
   private ScoreDisplay _scoreDisplay;
   
   [SerializeField] private float _minFlightDistance = 1.0f;
   [SerializeField] private float _maxFlightDistance = 5.0f;
-  [SerializeField] private float _speedBonus;
+  [SerializeField] private float _speedBonus = 2f;
   private float _flightDistance;
   private Material _material;
   private PlayerBall _playerBall;
@@ -30,15 +30,15 @@ namespace RollABall
   {
    _flightDistance = Random.Range(_minFlightDistance, _maxFlightDistance);
    _material = GetComponent<MeshRenderer>().materials[0];
-   _scoreDisplay = new ScoreDisplay();
-   _playerBall = FindObjectOfType<PlayerBall>();
+  // _scoreDisplay = new ScoreDisplay();
+ // _playerBall = _reference.PlayerBall;
    Debug.Log(IsInteractable.ToString());
   }
 
   protected override void Interaction()
   {
    OnPointsChanged.Invoke(pointsForCollection);
-   AddSpeed();
+   //AddSpeed();
    cameraShakeEvent?.Invoke(this);
   }
 
@@ -59,10 +59,12 @@ namespace RollABall
    _material.color = new Color(Mathf.PingPong(Time.time, 1.0f), _material.color.g, _material.color.b, Mathf.PingPong(Time.time, 1.0f));
   }
 
+  /*
   public void AddSpeed()
   {
    _playerBall.Speed += _speedBonus;
   }
+  */
  }
 
 }

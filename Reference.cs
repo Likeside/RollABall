@@ -7,6 +7,9 @@ public class Reference
 {
     private PlayerBall _playerBall;
     private Camera _mainCamera;
+    private GameObject _bonusScoreObj;
+    private GameObject _gameOverObj;
+    private Canvas _canvas;
 
     public PlayerBall PlayerBall
     {
@@ -32,6 +35,47 @@ public class Reference
             }
 
             return _mainCamera;
+        }
+    }
+    
+    
+    public Canvas Canvas
+    {
+        get
+        {
+            if (_canvas == null)
+            {
+                _canvas = Object.FindObjectOfType<Canvas>();
+            }
+            return _canvas;
+        }
+    }
+    
+    public GameObject BonusScoreObj
+    {
+        get
+        {
+            if (_bonusScoreObj == null)
+            {
+                var gameObject = Resources.Load<GameObject>("UI/BonusScoreObj");
+                _bonusScoreObj = Object.Instantiate(gameObject, Canvas.transform);
+            }
+            
+            return _bonusScoreObj;
+        }
+    }
+
+    public GameObject GameOverObj
+    {
+        get
+        {
+            if (_gameOverObj == null)
+            {
+                var gameObject = Resources.Load<GameObject>("UI/GameOverObj");
+                _gameOverObj = Object.Instantiate(gameObject, Canvas.transform);
+            }
+            
+            return _gameOverObj;
         }
     }
 }

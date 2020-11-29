@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RollABall
 {
     
-    public class PlayerBall : PlayerBase
+    public sealed class PlayerBall : PlayerBase
     {
         private Rigidbody _rigidbody;
 

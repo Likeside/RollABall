@@ -29,7 +29,7 @@ namespace RollABall
             }
             Debug.Log("Collision");
             Interaction();
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
         }
 
         public abstract void Execute();

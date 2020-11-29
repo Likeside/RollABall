@@ -35,16 +35,16 @@ namespace RollABall
             
 
             //Инициализация сообщения о проигрыше
-            _gameOverDisplay = new GameOverDisplay();
+            _gameOverDisplay = new GameOverDisplay(reference.GameOverObj);
             
             //Инициализация сообщения о набранных очках
-            _scoreDisplay = new ScoreDisplay();
+            _scoreDisplay = new ScoreDisplay(reference.BonusScoreObj);
 
             //Пробегаемся по массиву интерактивных объектов, и если объект является BadBonus, добавляем методы к его делегату "Catch"
 
             foreach (var interactiveObject in _interactiveObjects)
             {
-                if (interactiveObject is BadBonus badBonus)
+                if (interactiveObject is BadBonus badBonus && interactiveObject != null)
                 {
                     badBonus.CaughtPlayer += CaughtPlayer;
                     badBonus.CaughtPlayer += _gameOverDisplay.GameOver;
@@ -53,7 +53,7 @@ namespace RollABall
             //Тоже самое с хорошими кубами (тряска камеры и добавление очков)
             foreach (var interactiveObject in _interactiveObjects)
             {
-                if (interactiveObject is GoodBonus goodBonus)
+                if (interactiveObject is GoodBonus goodBonus && interactiveObject != null)
                 {
                     goodBonus.cameraShakeEvent += CameraShake;
                     goodBonus.OnPointsChanged += AddPoints;
